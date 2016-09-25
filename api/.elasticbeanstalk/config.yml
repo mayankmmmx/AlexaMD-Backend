@@ -1,0 +1,10 @@
+branch-defaults:
+  master:
+    environment: AlexaMD-Backend
+global:
+  application_name: AlexaMD-Backend
+  default_ec2_keyname: DiagnosisAPI
+  default_platform: python2.7
+  default_region: us-west-2
+  profile: eb-cli
+  sc: git
