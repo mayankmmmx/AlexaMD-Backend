@@ -3,7 +3,8 @@ from nltk.stem.lancaster import LancasterStemmer
 import pymysql.cursors
 
 filler_words = stopwords.words('english')
-
+filler_words.append('think')
+print filler_words
 st = LancasterStemmer()
 
 verbs = [
@@ -74,17 +75,13 @@ body_parts_conversion = {
 	"sore":"itch",
 }
 
-def intersect(*d):
-    sets = iter(map(set, d))
-    result = sets.next()
-    for s in sets:
-        result = result.intersection(s)
-    return result
-
 def decode(phrase, data): 
 	word_list = phrase.split(" ")
 	filtered_words = [word for word in word_list if word not in filler_words]
-	
+	temp = " ".join(filtered_words)
+	if temp in data.keys():
+		return data[temp]
+
 	for index in range(len(filtered_words)):
 		if filtered_words[index] in body_parts_conversion.keys():
 			filtered_words[index] = body_parts_conversion[filtered_words[index]]
