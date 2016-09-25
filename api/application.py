@@ -1,6 +1,6 @@
 # hack for harambe
 from flask import Flask, Response, request, jsonify
-#import Routes.create_account
+import Routes.diagnosis
 #import Routes.login
 #import Routes.get_user
 #import Routes.enter_match_queue
@@ -14,15 +14,15 @@ application = Flask(__name__)
 @application.route('/')
 @application.route('/index')
 def index():
-    return "Welcome to AlexaMD's RESTful API!!!!"
+    return "Welcome to AlexaMD's RESTful API!"
+
+
+@application.route('/harambe/diagnosis', methods=['POST'])
+def route_diagnosis():
+    if request.headers['Content-Type'] == 'application/json':
+        return jsonify(Routes.diagnosis.respond(request.get_json()))
 
 '''
-@application.route('/harambe/create_account', methods=['POST'])
-def route_create_account():
-    if request.headers['Content-Type'] == 'application/json':
-        return jsonify(Routes.create_account.respond(request.get_json()))
-
-
 @application.route('/harambe/login', methods=['GET'])
 def route_login():
     return jsonify(Routes.login.respond(request.args))
