@@ -14,7 +14,7 @@ application = Flask(__name__)
 @application.route('/')
 @application.route('/index')
 def index():
-    return "Welcome to AlexaMD's RESTful API!"
+    return "Welcome to AlexaMD's RESTful API!!!!"
 
 '''
 @application.route('/harambe/create_account', methods=['POST'])
