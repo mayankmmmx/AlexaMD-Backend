@@ -4,7 +4,6 @@ import pymysql.cursors
 
 filler_words = stopwords.words('english')
 filler_words.append('think')
-print filler_words
 st = LancasterStemmer()
 
 verbs = [
