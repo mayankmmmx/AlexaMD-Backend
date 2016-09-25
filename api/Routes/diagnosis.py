@@ -1,26 +1,9 @@
 import requests
 import json
 import pymysql.cursors
+import nlp
 
-def get_symptom_ids(symptoms):
-	symptom_ids = []
-	connection = pymysql.connect(
-							 host='localhost',
-                             user='root',
-                             password='',
-                             db='alexa_md',
-                             charset='utf8mb4',
-                             cursorclass=pymysql.cursors.DictCursor)
-	with connection.cursor() as cursor:
-		for symptom in symptoms:
-			sql = "SELECT `id` FROM `symptoms` WHERE `symptom`=%s"
-			cursor.execute(sql, (symptom))
-			result = cursor.fetchone()
-			symptom_ids.append(result["id"])
-	connection.close()
-	return symptom_ids
-
-def create_post_data(symptom_ids):
+def create_post_data(symptom_ids, age, sex):
 	evidence = []
 	for symptom_id in symptom_ids:
 		evidence_blob = {
@@ -30,8 +13,8 @@ def create_post_data(symptom_ids):
 		evidence.append(evidence_blob)
 
 	return json.dumps({
-		"sex": "male",
-		"age": "29",
+		"sex": sex,
+		"age": age,
 		"evidence": evidence
 	})
 
@@ -54,10 +37,9 @@ def get_diagnoses(evidence):
 	print(len(diagnoses))
 
 def respond(data):
-	symptom_ids = get_symptom_ids(data.get("symptoms"))
-	diagnosis = get_diagnoses(create_post_data(symptom_ids))
+	symptom_ids = nlp.get_symptom_ids(data.get("symptoms"))
+	diagnosis = get_diagnoses(create_post_data(symptom_ids, data.get("age"), data.get("sex")))
 
 	return {
-		'status': 0,
 		'diagnosis': diagnosis
 	}
