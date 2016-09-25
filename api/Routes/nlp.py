@@ -71,6 +71,7 @@ body_parts_conversion = {
 	"butt":"anus",
 	"pee":"urin",
 	"threw":"vomit",
+	"sore":"itch",
 }
 
 def intersect(*d):
